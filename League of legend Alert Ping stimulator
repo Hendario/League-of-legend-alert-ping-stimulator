@@ -1,0 +1,47 @@
+from pynput.mouse import Listener       #You need to pip pynut.mouse first
+import os
+# This function will be called when any key of mouse is pressed
+def on_click(*args):
+    # see what argument is passed.
+    #print(list(args))
+    #print(args)
+    if args[-1]:
+        # Do something when the mouse key is pressed.
+        #print('The "{}" mouse key has held down'.format(args[-2].name))
+        global x1
+        global y1
+        x1 = args[0]        #Get the x1 value,initial x value
+        y1 = args[1]        #Get the y1 value initial y value
+
+    elif not args[-1]:
+        # Do something when the mouse key is released.
+        #print('The "{}" mouse key is released'.format(args[-2].name))
+        x2 = args[0]        #Get the x2 value, end x value
+        y2 = args[1]        #Get the y2 value, end y value
+        
+        while x2+1000 <= x1:        #Huge slide to left return many question marks & sound
+            music1 = 'manyquestion.mp3'
+            question = os.startfile(music1)
+            return question,print('?????')      #
+        while x2+500 <= x1:     #Small slide to left return a question mark & sound
+            music1 = 'Question.mp3'
+            question = os.startfile(music1)
+            return question,print('?')
+        while x1+500 <= x2:     #Small slide to right return a coming mark & sound
+            coming = 'Coming.mp3'
+            coming = os.startfile(coming)
+            return coming,print('↓')
+        while y2+500 <= y1:     #Small slide to top return a warnming mark & sound 
+            warn = 'Warn.mp3'
+            warn = os.startfile(warn)
+            return warn,print('!')
+        while y1+500 <= y2:     #Small slide to bottom to return a flag mark & sound
+            help = 'Help.mp3'
+            help = os.startfile(help)
+            return help,print('🏴')
+
+# Open Listener for mouse key presses
+with Listener(on_click=on_click) as listener:
+    # Listen to the mouse key presses
+    listener.join()
+
